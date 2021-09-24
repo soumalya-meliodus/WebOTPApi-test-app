@@ -12,29 +12,53 @@ function Otp(props) {
 
     useEffect(() => {
         if ('OTPCredential' in window) {
-            window.addEventListener('DOMContentLoaded', e => {
-              const input = document.querySelector('input[id="otp"]');
-              if (!input) return;
-              const ac = new AbortController();
-              //const form = input.closest('form');
-              const verifyBtn = input.closest('form').querySelector('[name="verify"]');
-              if (verifyBtn) {
+            //window.addEventListener('DOMContentLoaded', e => {
+            alert("Window loaded.")
+            const input = document.querySelector('input[id="otp"]');
+            
+            if (!input) return;
+            const ac = new AbortController();
+            //const form = input.closest('form');
+            const verifyBtn = input.closest('form').querySelector('[name="verify"]');
+            if (verifyBtn) {
                 verifyBtn.addEventListener('click', e => {
-                  ac.abort();
+                    ac.abort();
                 });
-              }
-              navigator.credentials.get({
+            }
+            navigator.credentials.get({
                 otp: { transport:['sms'] },
                 signal: ac.signal
-              }).then(otp => {
+            }).then(otp => {
                 //input.value = otp.code;
                 setOtp(otp.code)
+                alert(JSON.stringify(otp))
                 //if (form) form.submit();
                 verifyOtp();
-              }).catch(err => {
+                /* fetch(config.apiURL, {
+                    method: 'POST',
+                    mode: 'cors', // no-cors, *cors, same-origin
+                    cache: 'no-cache',
+                    headers: {'Content-Type':'application/json'},
+                    body: JSON.stringify(otp)
+                })
+                .then(res => res.json())
+                .then(
+                    (result) => {
+                        console.log(result);
+                    },
+                    // Note: it's important to handle errors here
+                    // instead of a catch() block so that we don't swallow
+                    // exceptions from actual bugs in components.
+                    (error) => {
+                        console.log(error);
+                    }
+                ) */
+            }).catch(err => {
                 console.log(err);
-              });
             });
+            //});
+        } else {
+            alert('Your browser does not support WebOTPApi.');
         }
     }, [])
 

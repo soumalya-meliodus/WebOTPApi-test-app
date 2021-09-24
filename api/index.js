@@ -49,12 +49,12 @@ const generateOTP = () => {
 
 app.post('/', jsonParser, async (req, res) => {
   console.log('POST /')
-  console.dir(req.body.phone)
+  console.dir(req.body)
   try{
-    let phone = req.body.phone;
+    /* let phone = req.body.phone; */
 
     /* send OTP */
-    let generateOTPVal = generateOTP()
+    /* let generateOTPVal = generateOTP()
     let apiEndpoint2FactorHost = '2factor.in'
     let apiEndpoint2FactorRequestURI = '/API/V1/[api_key]/SMS/+91[phone_no]/[custom_otp_val]'
     .replace("[api_key]", 'c7d53d63-c46a-11ea-9fa5-0200cd936042');
@@ -96,16 +96,16 @@ app.post('/', jsonParser, async (req, res) => {
     } catch (err) {
       //res.status(400).json({ err });
       console.log(err);
-    }
+    } */
 
     /* response */
-    res.status(200).json({
+    /* res.status(200).json({
       status: true,
       msg: "OTP has been successfully sent to your mobile no.",
-    });
+    }); */
 
-    //res.writeHead(200, {'Content-Type': 'text/html'})
-    //res.end('thanks')
+    res.writeHead(200, {'Content-Type': 'text/html'})
+    res.end('thanks')
   } catch (err) {
     res.status(400).json({ status: false, msg: err });
   }
