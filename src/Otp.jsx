@@ -5,10 +5,12 @@ import react, {useState, useEffect} from 'react'
 import { useHistory } from "react-router";
 
 function Otp(props) {
-    const history = useHistory();
+    const history = useHistory()
     const [otp, setOtp] = useState('')
     const [successMsg, setSuccessMsg] = useState('')
     const [successTimeout, setSuccessTimeout] = useState(false)
+    const [disabled, setDisabled] = useState(false)
+    const [disabledClass, setDisabledClass] = useState('')
 
     useEffect(() => {
         if ('OTPCredential' in window) {
@@ -31,7 +33,7 @@ function Otp(props) {
             }).then(otp => {
                 //input.value = otp.code;
                 setOtp(otp.code)
-                alert(JSON.stringify(otp))
+                //alert(JSON.stringify(otp))
                 //if (form) form.submit();
                 verifyOtp();
                 /* fetch(config.apiURL, {
@@ -68,13 +70,15 @@ function Otp(props) {
     }
 
     const verifyOtp = () => {
+        setDisabled(true)
+        setDisabledClass('disabled:opacity-50')
         setSuccessMsg(`OTP has been successfully verified !`)
         if(!successTimeout){
             setSuccessTimeout(setTimeout(() => {
                 setSuccessMsg('')
                 setSuccessTimeout(false)
                 //history.push('/validate-otp')
-            }, 3000));
+            }, 5000));
         }
     }
 
@@ -104,7 +108,7 @@ function Otp(props) {
                     </div>
                     <div className="md:flex md:items-center">
                     <div className="md:w-1/3">
-                        <button name="verify" onClick={() => verifyOtp()} className="shadow bg-blue-500 hover:bg-blue-400 focus:shadow-outline focus:outline-none text-white font-bold py-2 px-4 rounded" type="button" >
+                        <button name="verify" onClick={() => verifyOtp()} disabled={disabled} className={`shadow bg-blue-500 hover:bg-blue-400 focus:shadow-outline focus:outline-none text-white font-bold py-2 px-4 rounded ${disabledClass}`} type="button" >
                             Verify
                         </button>
                     </div>
